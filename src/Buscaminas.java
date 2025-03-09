@@ -10,6 +10,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * La clase Buscaminas representa la interfaz gráfica del juego Buscaminas.
+ * Permite al usuario interactuar con el tablero, realizar movimientos, guardar y cargar partidas,
+ * y utilizar algoritmos de búsqueda (BFS o DFS) para revelar casillas.
+ *
+ * @author Diego
+ * @version 1.0
+ */
+
 public class Buscaminas extends JFrame {
     private Tablero tablero;
     private JButton[][] botones;
@@ -17,6 +26,15 @@ public class Buscaminas extends JFrame {
     private JComboBox<String> metodoBusqueda;
     private FileChooser fileChooser = new FileChooser();
     private int banderasColocadas = 0;
+    
+     /**
+     * Constructor de la clase Buscaminas.
+     * Inicializa el tablero, los botones y la interfaz gráfica.
+     *
+     * @param filas    Número de filas del tablero.
+     * @param columnas Número de columnas del tablero.
+     * @param minas    Número de minas en el tablero.
+     */
 
     public Buscaminas(int filas, int columnas, int minas) {
         this.tablero = new Tablero(filas, columnas, minas);
@@ -30,6 +48,10 @@ public class Buscaminas extends JFrame {
 
         inicializarInterfaz();
     }
+     /**
+     * Inicializa la interfaz gráfica del juego.
+     * Configura los botones, el panel del tablero y los listeners de eventos.
+     */
 
     private void inicializarInterfaz() {
         JPanel panelSuperior = new JPanel();
@@ -57,23 +79,25 @@ public class Buscaminas extends JFrame {
                  fileChooser.guardarArchivo(save);
             }
         });
-        
+        // Crear los botones del tablero
         for (int i = 0; i < tablero.getFilas(); i++) {
             for (int j = 0; j < tablero.getColumnas(); j++) {
                 JButton boton = new JButton();
                 boton.setPreferredSize(new Dimension(50, 50));
                 
-                 // Cambiar el color de fondo de cada casilla a rojo
+                 // Cambiar el color de fondo de cada casilla a amarillo
                 boton.setBackground(Color.YELLOW);
                 boton.setOpaque(true);
                 boton.setBorderPainted(false); // Opcional: quitar el borde para un aspecto más uniforme
                 
+                // Listener para clic izquierdo (revelar casilla)
                 boton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         onCasillaClic((JButton) e.getSource());
                     }
                 });
+                // Listener para clic derecho (marcar con bandera)
                 boton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -89,7 +113,12 @@ public class Buscaminas extends JFrame {
 
         add(panelTablero, BorderLayout.CENTER);
     }
-
+    /**
+     * Maneja el evento de clic en una casilla.
+     * Revela la casilla y realiza el barrido correspondiente (BFS o DFS).
+     *
+     * @param boton El botón que representa la casilla clickeada.
+     */
     private void onCasillaClic(JButton boton) {
         for (int i = 0; i < tablero.getFilas(); i++) {
             for (int j = 0; j < tablero.getColumnas(); j++) {
@@ -111,7 +140,10 @@ public class Buscaminas extends JFrame {
             }
         }
     }
-
+    /**
+     * Verifica si el jugador ha ganado el juego.
+     * El jugador gana si todas las casillas sin minas han sido reveladas.
+     */
     private void checkWin(){
         int count = 0;
         int bombas = 0;
@@ -130,7 +162,12 @@ public class Buscaminas extends JFrame {
             reiniciarJuego();
         }
     }
-    
+    /**
+     * Maneja el evento de clic derecho en una casilla.
+     * Marca o desmarca la casilla con una bandera.
+     *
+     * @param boton El botón que representa la casilla clickeada.
+     */
     private void onCasillaClicDerecho(JButton boton) {
         System.out.println("xd");
         for (int i = 0; i < tablero.getFilas(); i++) {
@@ -153,7 +190,13 @@ public class Buscaminas extends JFrame {
             }
         }
     }
-
+    /**
+     * Realiza un barrido en anchura (BFS) desde la casilla especificada.
+     * Revela todas las casillas vacías conectadas y las casillas adyacentes con números.
+     *
+     * @param fila    Fila de la casilla inicial.
+     * @param columna Columna de la casilla inicial.
+     */
     private void barridoBFS(int fila, int columna) {
         Cola cola = new Cola();
         cola.encolar(fila + "," + columna);
@@ -184,7 +227,13 @@ public class Buscaminas extends JFrame {
             }
         }
     }
-
+    /**
+     * Realiza un barrido en profundidad (DFS) desde la casilla especificada.
+     * Revela todas las casillas vacías conectadas y las casillas adyacentes con números.
+     *
+     * @param fila    Fila de la casilla inicial.
+     * @param columna Columna de la casilla inicial.
+     */
     private void barridoDFS(int fila, int columna) {
         Pila pila = new Pila();
         pila.push(fila + "," + columna);
@@ -215,6 +264,11 @@ public class Buscaminas extends JFrame {
             }
         }
     }
+    /**
+     * Carga las minas en el tablero desde una cadena de texto.
+     *
+     * @param save Cadena de texto que representa el estado del tablero.
+     */
     public void cargarBombas(String save){
         String[] filas = save.split(";");
          for (int i = 0; i < tablero.getFilas(); i++) {
@@ -232,7 +286,12 @@ public class Buscaminas extends JFrame {
          }
          tablero.calcularMinasAdyacentes();
     }
-    
+    /**
+     * Carga una partida desde una cadena de texto.
+     * Restaura el estado del tablero y la interfaz gráfica.
+     *
+     * @param save Cadena de texto que representa el estado del tablero.
+     */
     
     public void cargarPartida(String save){
         cargarBombas(save);
@@ -258,6 +317,7 @@ public class Buscaminas extends JFrame {
                     banderasColocadas++;
                     }
                     case "B" -> {
+                        // No se hace nada, es una mina
                     }
                     case "R" -> {
                     tablero.getCasilla(i,j).setRevelada(true);
@@ -268,7 +328,7 @@ public class Buscaminas extends JFrame {
                 }
             }
          }
-         
+        // Actualizar la interfaz gráfica 
         for (int i = 0; i < tablero.getFilas(); i++) {
           for (int j = 0; j < tablero.getColumnas(); j++) {
               if (tablero.getCasilla(i,j).esRevelada()){
@@ -278,7 +338,9 @@ public class Buscaminas extends JFrame {
           }
         }
     }
-    
+    /**
+     * Reinicia el juego, cerrando la ventana actual y abriendo una nueva.
+     */
     private void reiniciarJuego() {
         new Interfaz().setVisible(true);
         this.dispose();

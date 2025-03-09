@@ -20,7 +20,7 @@ import javax.swing.JTextArea;
  * Clase que permite cargar una ventana con un area de texto
  * y las opciones de abrir o guardar un archivo
  * 
- * @author HENAO
+ * @author Diego
  */
 public class FileChooser extends JFrame implements ActionListener
 	{
@@ -33,6 +33,10 @@ public class FileChooser extends JFrame implements ActionListener
 		JFileChooser fileChooser; /*Declaramos el objeto fileChooser*/
 		String texto;    
 		
+                /**
+                 * Constructor de la clase FileChooser.
+                 * Inicializa la interfaz gráfica y configura los componentes.
+                 */
 		public FileChooser()//constructor
 		{
 			contenedor=getContentPane();
@@ -74,7 +78,7 @@ public class FileChooser extends JFrame implements ActionListener
 			contenedor.add(botonGuardar);
        		//Asigna un titulo a la barra de titulo
 			setTitle("CoDejaVu : Ventana JFileChooser");
-			//tama�o de la ventana
+			//tamaño de la ventana
 			setSize(400,400);
 			//pone la ventana en el Centro de la pantalla
 			setLocationRelativeTo(null);
@@ -82,6 +86,11 @@ public class FileChooser extends JFrame implements ActionListener
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		}
 
+                 /**
+                  * Maneja los eventos de los botones "Abrir" y "Guardar".
+                  *
+                  * @param evento El evento que desencadenó la acción.
+                  */
 		@Override
 		public void actionPerformed(ActionEvent evento) {
 			if (evento.getSource()==botonAbrir)

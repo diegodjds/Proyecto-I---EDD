@@ -5,6 +5,15 @@
 
 import java.util.Random;
 
+/**
+ * La clase Tablero representa el tablero del juego Buscaminas.
+ * Contiene una matriz de casillas y métodos para manipular el estado del juego,
+ * como colocar minas, calcular minas adyacentes y obtener información sobre las casillas.
+ *
+ * @author Diego
+ * @version 1.0
+ */
+
 public class Tablero {
     private int filas;
     private int columnas;
@@ -12,6 +21,14 @@ public class Tablero {
     private Casilla[][] casillas;
     private ListaEnlazada minasPosiciones;
 
+    /**
+     * Constructor de la clase Tablero.
+     * Inicializa el tablero con el número de filas, columnas y minas especificado.
+     *
+     * @param filas    Número de filas del tablero.
+     * @param columnas Número de columnas del tablero.
+     * @param minas    Número de minas en el tablero.
+     */
     public Tablero(int filas, int columnas, int minas) {
         this.filas = filas;
         this.columnas = columnas;
@@ -23,6 +40,9 @@ public class Tablero {
         calcularMinasAdyacentes();
     }
 
+    /**
+     * Inicializa el tablero creando una casilla en cada posición.
+     */
     private void inicializarTablero() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -32,6 +52,9 @@ public class Tablero {
         }
     }
 
+    /**
+     * Coloca las minas en el tablero de manera aleatoria.
+     */
     private void colocarMinas() {
         Random random = new Random();
         int minasColocadas = 0;
@@ -49,6 +72,12 @@ public class Tablero {
         }
     }
     
+    /**
+     * Coloca una mina en la posición especificada.
+     *
+     * @param fila    Fila donde se colocará la mina.
+     * @param columna Columna donde se colocará la mina.
+     */
      public void colocarMinasEn(int fila, int columna) {
             String id = String.valueOf((char) ('A' + columna)) + (fila + 1);
             if (!minasPosiciones.contiene(id)) {
@@ -57,6 +86,9 @@ public class Tablero {
             }
     }
 
+     /**
+     * Calcula el número de minas adyacentes para cada casilla que no contiene una mina.
+     */
     public void calcularMinasAdyacentes() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -80,18 +112,40 @@ public class Tablero {
         }
     }
 
+    /**
+     * Obtiene la casilla en la posición especificada.
+     *
+     * @param fila    Fila de la casilla.
+     * @param columna Columna de la casilla.
+     * @return La casilla en la posición especificada.
+     */
     public Casilla getCasilla(int fila, int columna) {
         return casillas[fila][columna];
     }
 
+    /**
+     * Obtiene el número de filas del tablero.
+     *
+     * @return El número de filas del tablero.
+     */
     public int getFilas() {
         return filas;
     }
 
+    /**
+     * Obtiene el número de columnas del tablero.
+     *
+     * @return El número de columnas del tablero.
+     */
     public int getColumnas() {
         return columnas;
     }
 
+    /**
+     * Obtiene el número de minas en el tablero.
+     *
+     * @return El número de minas en el tablero.
+     */
     public int getMinas() {
         return minas;
     }
